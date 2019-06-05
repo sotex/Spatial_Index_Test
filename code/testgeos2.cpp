@@ -1,5 +1,6 @@
 #include "test.hpp"
 #include <geos.h>
+#include <geos/index/ItemVisitor.h>
 #include <geos/index/quadtree/Quadtree.h>
 #include <set>
 
@@ -8,6 +9,44 @@ const int queryseed = 8888;
 
 using namespace geos;
 using namespace geos::index;
+
+class NodeVisitor: public ItemVisitor {
+	std::vector<void*>& bf;
+	Rect                rt;
+	public:
+	NodeVisitor(std::vector<void*>& v,const Rect& r):bf(v),rt(r)
+	{
+	}
+	void visitItem(void* item)
+	{
+		Node* n = (Node*)item;
+		if(Intersect(n->box,rt)){
+			bf.push_back(item);
+		}
+	}
+
+};
+
+class NodeVisitor2: public ItemVisitor {
+	std::vector<void*>& bf;
+	Rect                rt;
+	time_t    _t0,_t1;
+	int _sat;
+	public:
+	NodeVisitor2(std::vector<void*>& v,const Rect& r,time_t t0,time_t t1,int sat)
+		:bf(v),rt(r),_t0(t0),_t1(t1),_sat(sat)
+	{
+	}
+	void visitItem(void* item)
+	{
+		Node* n = (Node*)item;
+		if(Intersect(n->box,rt) && (n->dtime >= _t0 && n->dtime <= _t1) && n->sat == _sat ){
+			bf.push_back(item);
+		}
+	}
+
+};
+
 
 
 class TestQuadtree :public TestBase {
@@ -60,7 +99,8 @@ public:
             t.Start();
             std::vector<void*> result;
 			Envelope querybox(r.x0,r.x1,r.y0,r.y1);
-			mIndex->query(&querybox,result);
+			NodeVisitor visit(result,r);
+			mIndex->query(&querybox,visit);
             t.Stop();
             zsj += t.elapsed();
 
@@ -93,15 +133,10 @@ public:
 
             // 查询计时
             t.Start();
-            std::vector<void*> result,restmp;
+            std::vector<void*> result;
 			Envelope querybox(r.x0,r.x1,r.y0,r.y1);
-			mIndex->query(&querybox,restmp);
-			for(size_t ii=0;ii<restmp.size();++ii){
-				Node* n = (Node*)restmp[ii];
-				if((n->dtime <= t1 && n->dtime >= t0) && n->sat == sat){
-					result.push_back(n);
-				}
-			}
+			NodeVisitor2 visit(result,r,t0,t1,sat);
+			mIndex->query(&querybox,visit);
             t.Stop();
             zsj += t.elapsed();
 
