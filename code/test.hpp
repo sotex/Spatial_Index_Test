@@ -70,7 +70,7 @@ protected:
         // 高与宽的长度差距在上下70%以内
         Node n;
         r.x0 = -180 + rand_real() * 359.8;
-        r.x0 = -90 + rand_real() * 179.8;
+        r.y0 = -90 + rand_real() * 179.8;
         double w = 0.002 + rand_real() * 0.1998;
         double h = w * (1.0 + double(0.01 * (70 - rand_uint() % 141)));
         r.x1 = r.x0 + w;
