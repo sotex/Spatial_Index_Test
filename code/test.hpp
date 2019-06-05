@@ -112,7 +112,7 @@ void TestRun(size_t count)
 
     p->init(count);
 
-    printf("\n\n@@@@@@@@@@@@@@@@----TestRun(insert(%llu))----@@@@@@@@@@@@@@@@\n", count);
+    printf("\n\nSSSSSSSSSSSSSSSS----TestRun(insert(%llu))----SSSSSSSSSSSSSSSS\n", count);
     t.Start();
     p->insert(count);
     t.Stop();
@@ -122,7 +122,7 @@ void TestRun(size_t count)
     t.Start();
     p->query(count);
     t.Stop();
-    printf("\n%%%%%%%%%%%%%%%%----TestRun(query(%llu)) 耗时%lf----%%%%%%%%\n", count, t.elapsed());
+    printf("\nEEEEEEEEEEEEEEEE----TestRun(query(%llu)) 耗时%lf----EEEEEEEE\n", count, t.elapsed());
 }
 
 #endif //!__TEST_HPP__
