@@ -1,7 +1,7 @@
 #include "test.hpp"
 
-const int inserseed = 2019;
-const int queryseed = 78658;
+const int inserseed = 9999;
+const int queryseed = 8888;
 
 class TestIter :public TestBase {
     std::vector<Node> data;
@@ -47,8 +47,8 @@ public:
             // 查询计时
             t.Start();
             std::vector<size_t> result;
-            for (size_t i = 0; i < data.size(); ++i) {
-                Node& n = data[i];
+            for (size_t ii = 0; ii < data.size(); ++ii) {
+                Node& n = data[ii];
                 if (Intersect(r, n.box)) {
                     result.push_back(n.id);
                 }
@@ -80,8 +80,8 @@ public:
             // 查询计时
             t.Start();
             std::vector<size_t> result;
-            for (size_t i = 0; i < data.size(); ++i) {
-                Node& n = data[i];
+            for (size_t ii = 0; ii < data.size(); ++ii) {
+                Node& n = data[ii];
                 if (Intersect(r, n.box) && 
                     (n.dtime <= t1 && n.dtime >= t0) &&
                     n.sat == sat) {
