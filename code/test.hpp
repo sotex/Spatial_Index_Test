@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <vector>
 #include <string>
+#include <random>
 
 class Timer {
     clock_t _s;
@@ -48,43 +49,52 @@ struct Node {
 };
 
 class TestBase {
+	std::mt19937 mt;
+	inline double rand_real()
+	{
+		return double(mt()) / (mt.max() - mt.min());
+	}
+	inline uint32_t rand_uint()
+	{
+		return mt();
+	}
 protected:
     void resetRand(int seed)
     {
-        srand(seed);
+        mt.seed(seed);
     }
-    void getNextData(Rect& r, time_t& dtime, int& sat) const
+    void getNextData(Rect& r, time_t& dtime, int& sat)
     {
         // 生成大小在0.002~0.2度大小的矩形(绝大部分影像的大小)
         // 0.002度约为222米，0.2度 22.26千米
         // 高与宽的长度差距在上下70%以内
         Node n;
-        r.x0 = -180 + double(rand()) / double(RAND_MAX) * 359.8;
-        r.x0 = -90 + double(rand()) / double(RAND_MAX) * 179.8;
-        double w = 0.002 + double(rand()) / double(RAND_MAX) * 0.1998;
-        double h = w * (1.0 + double(0.01 * (70 - rand() % 141)));
+        r.x0 = -180 + rand_real() * 359.8;
+        r.x0 = -90 + rand_real() * 179.8;
+        double w = 0.002 + rand_real() * 0.1998;
+        double h = w * (1.0 + double(0.01 * (70 - rand_uint() % 141)));
         r.x1 = r.x0 + w;
         r.y1 = r.y0 + h;
         // 时间控制在1990年1月1日到2019年1月1日
-        dtime = 631123200 + rand() % 915148800;
+        dtime = 631123200 + rand_uint() % 915148800;
         // 卫星限制在0-5
-        sat = rand() % 6;
+        sat = rand_uint() % 6;
     }
 
-    void getQueryArg(Rect& r,time_t& t0,time_t& t1,int& sat) const
+    void getQueryArg(Rect& r,time_t& t0,time_t& t1,int& sat)
     {
         // 查询框在 0.0023~5.625度（约为度网格5~16级）
-        double w = 0.0023 + double(rand()) * 5.625 / double(RAND_MAX);
-        r.x0 = -180 + double(rand()) / double(RAND_MAX) * (360.0 - w);
-        r.y0 = -90 + double(rand()) / double(RAND_MAX) * (180.0 - w);
+        double w = 0.0023 + rand_real() * 5.625;
+        r.x0 = -180 + rand_real() * (360.0 - w);
+        r.y0 = -90 + rand_real() * (180.0 - w);
         r.x1 = r.x0 + w;
         r.y1 = r.y0 + w;
         // 时间控制在1个月(2592000)~5年(155520000)之间
-        time_t el = 2592000 + (rand() % 152928000);
-        t0 = 631123200 + (rand() % (915148800-el));
+        time_t el = 2592000 + (rand_uint() % 152928000);
+        t0 = 631123200 + (rand_uint() % (915148800-el));
         t1 = t1 + el;
         // 卫星
-        sat = rand() % 6;
+        sat = rand_uint() % 6;
     }
 public:
     virtual void init(size_t count) = 0;
