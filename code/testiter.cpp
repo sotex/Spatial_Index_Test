@@ -29,7 +29,7 @@ public:
             t.Stop();
             zsj += t.elapsed();
         }
-        printf("插入 %llu 总耗时:%lf 毫秒\n", count, zsj);
+        printf("    插入 %llu 总耗时:%lf 毫秒\n", count, zsj);
     }
     void query(size_t count)
     {
@@ -58,7 +58,7 @@ public:
 
             // 输出中间那次的查询条件和结果
             if (i == count / 2) {
-                printf("查询条件:box[(%lf,%lf)-(%lf,%lf)],%lld<=dtime<=%lld,sat=%d\n查询结果(仅输出ID)：",
+                printf("    查询条件:box[(%lf,%lf)-(%lf,%lf)],%lld<=dtime<=%lld,sat=%d\n    查询结果(仅输出ID)：",
                     r.x0, r.y0, r.x1, r.y1, t0, t1, sat);
                 for (auto& id : result) {
                     printf("%llu,", id);
@@ -66,7 +66,7 @@ public:
                 puts("\n");
             }
         }
-        printf("查询(仅范围) %llu 总耗时:%lf 毫秒\n", count, zsj);
+        printf("    查询(仅范围) %llu 总耗时:%lf 毫秒\n", count, zsj);
 
         resetRand(queryseed);
         zsj = 0;
@@ -93,7 +93,7 @@ public:
 
             // 输出中间那次的查询条件和结果
             if (i == count / 2) {
-                printf("查询条件:box[(%lf,%lf)-(%lf,%lf)],%lld<=dtime<=%lld,sat=%d\n查询结果(仅输出ID)：",
+                printf("    查询条件:box[(%lf,%lf)-(%lf,%lf)],%lld<=dtime<=%lld,sat=%d\n    查询结果(仅输出ID)：",
                     r.x0, r.y0, r.x1, r.y1, t0, t1, sat);
                 for (auto& id : result) {
                     printf("%llu,", id);
@@ -101,7 +101,7 @@ public:
                 puts("\n");
             }
         }
-        printf("查询(全条件) %llu 总耗时:%lf 毫秒\n", count, zsj);
+        printf("    查询(全条件) %llu 总耗时:%lf 毫秒\n", count, zsj);
     }
 };
 
