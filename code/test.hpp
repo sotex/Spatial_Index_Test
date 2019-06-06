@@ -1,31 +1,33 @@
 #ifndef __TEST_HPP__
 #define __TEST_HPP__
 
-#include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <vector>
 #include <string>
 #include <random>
+#include <chrono>
 
 class Timer {
-    clock_t _s;
-    clock_t _e;
+    std::chrono::steady_clock::time_point _s;
+    std::chrono::steady_clock::time_point _e;
 public:
     Timer()
-        :_s(clock()), _e(0) {}
-    inline clock_t Start() {
-        return _s = clock();
+	{
+		Start();
+	}
+    inline void Start() {
+        _s = std::chrono::steady_clock::now();;
     }
-    inline clock_t Stop() {
-        return _e = clock();
+    inline void Stop() {
+        _e = std::chrono::steady_clock::now();;
     }
     inline double elapsed() const {
-        return double(_e - _s) * 1000.0 / CLOCKS_PER_SEC;
+        return std::chrono::duration_cast<std::chrono::microseconds>(_e - _s).count()*0.001;
     }
     inline double elapsed_sec() const {
-        return double(_e - _s) / CLOCKS_PER_SEC;
+        return std::chrono::duration_cast<std::chrono::milliseconds>(_e - _s).count()*0.001;
     }
 };
 
