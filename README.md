@@ -37,9 +37,11 @@
 > 编译器  ：gcc 4.8.5
 
 测试结果:
+
 测试输出可见[resultlog](resultlog)目录
-[测试数据][resultlog/测试数据.png]
-[测试数据对比][resultlog/测试数据对比.png]
+
+![测试结果](resultlog/测试结果.png)
+![测试结果对比](resultlog/测试结果对比.png)
 
 
 
