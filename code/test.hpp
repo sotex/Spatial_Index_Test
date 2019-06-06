@@ -120,7 +120,7 @@ void TestRun(size_t count)
 
     printf("\n------------TestRun(query(%llu))-----------\n", count);
     t.Start();
-    p->query(count);
+    p->query(20000);
     t.Stop();
     printf("\nEEEEEEEEEEEEEEEE----TestRun(query(%llu)) 耗时%lf----EEEEEEEE\n", count, t.elapsed());
 }
