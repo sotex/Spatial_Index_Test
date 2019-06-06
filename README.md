@@ -30,6 +30,17 @@
 
 ## 3、测试结果
 
-待添加
+测试环境：
+> 操作系统 : CentOS 7.0 x86_64
+> 内存    ：16GiB
+> CPU     :Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
+> 编译器  ：gcc 4.8.5
+
+测试结果:
+测试输出可见[resultlog](resultlog)目录
+[测试数据][resultlog/测试数据.png]
+[测试数据对比][resultlog/测试数据对比.png]
+
+
 
 
