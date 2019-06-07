@@ -1,5 +1,5 @@
 #include "test.hpp"
-#include <geos.h>
+#include <geos/geos.h>
 #include <geos/index/ItemVisitor.h>
 #include <geos/index/quadtree/Quadtree.h>
 #include <set>

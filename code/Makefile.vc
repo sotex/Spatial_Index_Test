@@ -1,0 +1,28 @@
+CXX      = cl
+CC       = cl
+DEFINES  = /DWIN32 /DWIN64 /DNDEBUG
+CXXFLAGS = /nologo /Zc:wchar_t /FS /Zc:inline /Zc:strictStrings /Zc:throwingNew /Zc:referenceBinding
+CXXFLAGS = $(CXXFLAGS) /utf-8 /Ox /MT /wd4819 /EHsc $(DEFINES) 
+
+GEOS_INC = C:/vcpkg/installed/x64-windows-static/include
+GEOS_LIB = C:/vcpkg/installed/x64-windows-static/lib/libgeos.lib
+
+all:	testiter testsqlite testgeos testgeos2
+
+testiter:	test.hpp testiter.cpp
+	$(CXX) $(CXXFLAGS) /OUT:testiter.exe testiter.cpp
+
+sqlite3.o:	sqlite3.h sqlite3.c
+	$(CC) $(CXXFLAGS) /I. /DSQLITE_ENABLE_RTREE=1 /DSQLITE_THREADSAFE=0 /Fo /OUT:sqlite3.obj sqlite3.c  
+
+testsqlite: test.hpp testsqlite.cpp sqlite3.obj
+	$(CXX) $(CXXFLAGS) /I. /OUT:testsqlite.exe testsqlite.cpp sqlite3.obj
+
+testgeos:	test.hpp testgeos.cpp
+	$(CXX) $(CXXFLAGS) /I. /I$(GEOS_INC) /OUT:testgeos.exe testgeos.cpp $(GEOS_LIB)
+
+testgeos2:	test.hpp testgeos2.cpp
+	$(CXX) $(CXXFLAGS) /I. /I$(GEOS_INC) /OUT:testgeos2.exe testgeos2.cpp $(GEOS_LIB)
+
+clean:
+	del /Q testiter.exe testsqlite.exe testgeos.exe testgeos2.exe testiter.obj testsqlite.obj testgeos.obj testgeos2.obj
