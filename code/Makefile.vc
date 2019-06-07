@@ -12,8 +12,8 @@ all:	testiter testsqlite testgeos testgeos2
 testiter:	test.hpp testiter.cpp
 	$(CXX) $(CXXFLAGS) /OUT:testiter.exe testiter.cpp
 
-sqlite3.o:	sqlite3.h sqlite3.c
-	$(CC) $(CXXFLAGS) /I. /DSQLITE_ENABLE_RTREE=1 /DSQLITE_THREADSAFE=0 /Fo /OUT:sqlite3.obj sqlite3.c  
+sqlite3.obj:	sqlite3.h sqlite3.c
+	$(CC) $(CXXFLAGS) /I. /DSQLITE_ENABLE_RTREE=1 /DSQLITE_THREADSAFE=0 /Fo /c /OUT:sqlite3.obj sqlite3.c  
 
 testsqlite: test.hpp testsqlite.cpp sqlite3.obj
 	$(CXX) $(CXXFLAGS) /I. /OUT:testsqlite.exe testsqlite.cpp sqlite3.obj
