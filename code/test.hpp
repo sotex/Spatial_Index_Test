@@ -74,7 +74,7 @@ protected:
         r.x0 = -180 + rand_real() * 359.8;
         r.y0 = -90 + rand_real() * 179.8;
         double w = 0.002 + rand_real() * 0.1998;
-        double h = w * (1.0 + double(0.01 * (70 - rand_uint() % 141)));
+        double h = w * (1.0 + double(0.01 * (70 - (int)(rand_uint() % 141))));
         r.x1 = r.x0 + w;
         r.y1 = r.y0 + h;
         // 时间控制在1990年1月1日到2019年1月1日
